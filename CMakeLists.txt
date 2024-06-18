@@ -19,74 +19,60 @@ include_directories(${Boost_INCLUDE_DIR})
 
 configure_file(version.h.in version.h)
 
-set(ASYNC_LIB_SRC
-    "async.cpp"
-    "async.h"
-    "concurrent/concurrent_queue.h"
-    "Interfaces/interface_writer.h"
-    "thread_writers/thread_console_writer.cpp"
-    "thread_writers/thread_console_writer.h"
-    "thread_writers/thread_file_writer.cpp"
-    "thread_writers/thread_file_writer.h"
-    "collector.cpp"
-    "collector.h"
-    "console.cpp"
-    "console.h"
-    "context_collector.cpp"
-    "context_collector.h"
-    "file_logger.cpp"
-    "file_logger.h"
-    "interpreter.cpp"
-    "interpreter.h"
-    "threads_joiner.h"
+#Main target
+
+add_executable(bulk_server
+	main.cpp
+	bulk_server.cpp
+	client_session.cpp
+	async.cpp
+	thread_writers/thread_console_writer.cpp
+	thread_writers/thread_file_writer.cpp
+	collector.cpp
+	console.cpp
+	context_collector.cpp
+	file_logger.cpp
+	interpreter.cpp
 )
 
-#Main target
-add_library(async_static STATIC ${ASYNC_LIB_SRC})
-add_library(async SHARED ${ASYNC_LIB_SRC})
-
-
-add_executable(async_cli main.cpp)
+add_library(lib_bulk_server lib.cpp)
 
 set_target_properties(
-    async
-    async_static
+    bulk_server
+    lib_bulk_server
     PROPERTIES
-    CXX_STANDARD 17
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
 
-target_link_libraries(async_static ${Boost_LIBRARIES} Threads::Threads)
+target_include_directories(lib_bulk_server 
+    PRIVATE "${CMAKE_BINARY_DIR}"
+)
 
-target_link_libraries(async ${Boost_LIBRARIES} Threads::Threads)
- 
-target_link_libraries(async_cli PRIVATE async_static)
+target_link_libraries(bulk_server PRIVATE
+    ${Boost_LIBRARIES}
+    lib_bulk_server
+)
 
 if (MSVC)
-    target_compile_options(async_static PRIVATE
+    target_compile_options(bulk_server PRIVATE
         /W4
     )
-    target_compile_options(async PRIVATE
-        /W4
-    )
-    target_compile_options(async_cli PRIVATE
+    target_compile_options(lib_bulk_server PRIVATE
         /W4
     )
 else ()
-    target_compile_options(async_static PRIVATE
+    target_compile_options(bulk_server PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
-    target_compile_options(async PRIVATE
-        -Wall -Wextra -pedantic -Werror
-    )
-    target_compile_options(async_cli PRIVATE
+    target_compile_options(lib_bulk_server PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
 
-install(TARGETS async_static RUNTIME DESTINATION lib)
-install(TARGETS async RUNTIME DESTINATION lib)
-install(TARGETS async_cli RUNTIME DESTINATION bin)
+install(TARGETS bulk_server RUNTIME DESTINATION bin)
+install(TARGETS lib_bulk_server RUNTIME DESTINATION lib)
+#install(TARGETS async_cli RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
