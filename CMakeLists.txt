@@ -35,10 +35,13 @@ add_executable(bulk_server
 	interpreter.cpp
 )
 
+add_executable(bulk_client client.cpp)
+
 add_library(lib_bulk_server lib.cpp)
 
 set_target_properties(
     bulk_server
+	bulk_client
     lib_bulk_server
     PROPERTIES
     CXX_STANDARD 20
@@ -54,8 +57,15 @@ target_link_libraries(bulk_server PRIVATE
     lib_bulk_server
 )
 
+target_link_libraries(bulk_client PRIVATE
+    ${Boost_LIBRARIES}
+)
+
 if (MSVC)
     target_compile_options(bulk_server PRIVATE
+        /W4
+    )
+	target_compile_options(bulk_client PRIVATE
         /W4
     )
     target_compile_options(lib_bulk_server PRIVATE
@@ -65,14 +75,17 @@ else ()
     target_compile_options(bulk_server PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
+	target_compile_options(bulk_client PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
     target_compile_options(lib_bulk_server PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
 
 install(TARGETS bulk_server RUNTIME DESTINATION bin)
+install(TARGETS bulk_client RUNTIME DESTINATION bin)
 install(TARGETS lib_bulk_server RUNTIME DESTINATION lib)
-#install(TARGETS async_cli RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
