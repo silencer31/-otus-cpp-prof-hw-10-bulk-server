@@ -20,7 +20,19 @@ void ClientSession::do_read()
 				return;
 			}
 
-			std::cout << "Session: " << session_id << ". Received: " << length << " bytes\n" << data_read << std::endl;
+			std::cout << "Session: " << session_id << ". Received: " << length << " bytes. Data: " << data_read << std::endl;
+
+			// Нужно ли завершить сессию.
+			if (0 == strcmp(data_read, "exit")) {
+				bulk_server_ptr->close_session(session_id);
+				return;
+			}
+
+			// Нужно ли выключить сервер.
+			if (0 == strcmp(data_read, "shutdown")) {
+				bulk_server_ptr->shutdown_server(session_id);
+				return;
+			}
 
 			// Очищаем буфер для следующего запроса от клиента.
 			clear_data_read();

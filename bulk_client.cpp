@@ -2,99 +2,153 @@
 #include <thread>
 #include <boost/asio.hpp>
 
-#include "structs.h"
+//#include "structs.h"
 
 using boost::asio::ip::tcp;
+
+namespace ba = boost::asio;
 
 class BulkClient
 {
 public:
-    BulkClient(boost::asio::io_service& aIoService, tcp::resolver::iterator aEndpointIterator)
-        : mIoService(aIoService)
-        , mSocket(aIoService)
+    BulkClient() = delete;
+
+    BulkClient(const std::string& ip_addr, const unsigned short port)
+        : _end_point(ba::ip::tcp::endpoint(ba::ip::address::from_string(ip_addr), port))
+        , _sock(ba::ip::tcp::socket(_io_context))
     {
-        DoConnect(aEndpointIterator);
+        connected = connect_to_server();
     }
 
-    void write(const std::string& aMsg)
-    {
-        mIoService.post(
-            [this, aMsg]()
-            {
-                bool writeInProgress = !mWriteMsgs.empty();
-                mWriteMsgs.push_back(aMsg);
-                if (!writeInProgress)
-                {
-                    DoWrite();
-                }
-            });
+    ~BulkClient() {
+        disconnect();
+    }
+    
+    /**
+    * Узнать, удалось ли подключиться.
+    */
+    bool is_connected() const {
+        return connected;
     }
 
-    void close()
+    /**
+    * Отправка данных.
+    * @param data_ptr отправляемые данные.
+    * @param data_size размер данных.
+    */
+    bool send_message(const char* data_ptr, const std::size_t data_size)
     {
-        mIoService.post([this]() { mSocket.close(); });
+        if (data_size == 0) {
+            last_error = std::string("Empty data to send");
+            return false;
+        }
+
+        bytes_written = 0;
+
+        try {
+            bytes_written = ba::write(_sock, ba::buffer(data_ptr, data_size));
+        }
+        catch (const boost::system::system_error& ex) {
+            last_error = std::string("boost exception: ") + ex.what();
+            return false;
+        }
+        catch (const std::exception& ex) {
+            last_error = std::string("std exception: ") + ex.what();
+            return false;
+        }
+
+        // Проверяем, сколько байт удалось записать.
+        if (bytes_written == 0) {
+            last_error = "Zero bytes were written";
+            return false;
+        }
+
+        return true;
     }
 
 private:
-    void DoConnect(tcp::resolver::iterator aEndpointIterator)
+    /**
+    * Подключение к серверу.
+    */
+    bool connect_to_server()
     {
-        boost::asio::async_connect(mSocket, aEndpointIterator,
-            [this](boost::system::error_code ec, tcp::resolver::iterator)
-            {
-                if (!ec)
-                {
-                    DoWrite();
-                }
-            });
+        try {
+            _sock.connect(_end_point);
+        }
+        catch (const boost::system::system_error& ex) {
+            last_error = std::string("boost exception: ") + ex.what();
+            return false;
+        }
+        catch (const std::exception& ex) {
+            last_error = std::string("std exception: ") + ex.what();
+            return false;
+        }
+
+        return true;
     }
 
-    void DoWrite()
+    /**
+    * Отключение от сервера.
+    */
+    void disconnect()
     {
-        boost::asio::async_write(mSocket,
-            boost::asio::buffer(mWriteMsgs.front().c_str(),
-                mWriteMsgs.front().size()),
-            [this](boost::system::error_code ec, std::size_t /*length*/)
-            {
-                if (!ec)
-                {
-                    mWriteMsgs.pop_front();
-                    if (!mWriteMsgs.empty())
-                        DoWrite();
-                }
-                else
-                    mSocket.close();
-            });
+        if (!_sock.is_open()) {
+            return;
+        }
+
+        boost::system::error_code ignore;
+
+        _sock.shutdown(
+            boost::asio::ip::tcp::socket::shutdown_both,
+            ignore
+        );
+
+        _sock.close(ignore);
+
+        connected = false;
     }
 
 private:
-    boost::asio::io_service& mIoService;
-    tcp::socket mSocket;
-    BulkQueue mWriteMsgs;
+    ba::io_context _io_context;
+    ba::ip::tcp::endpoint _end_point;
+    ba::ip::tcp::socket _sock;
+
+    bool connected;
+
+    std::string last_error; // Ошибка, полученная в процессе сетевого взаимодействия.
+    
+    std::size_t bytes_written; // Сколько байт удалось отправить.
+
+    //BulkQueue mWriteMsgs;
 };
 
 int main(int argc, char* argv[])
 {
-    try
+    if (argc < 3)
     {
-        if (argc != 3)
-        {
-            std::cerr << "Usage: bulk_client <host> <port>" << std::endl;
-            return 1;
-        }
+        std::cerr << "Usage: bulk_client <host> <port>" << std::endl;
+        return 1;
+    }
 
-        boost::asio::io_service ioService;
+    int port = std::atoi(argv[2]);
 
-        tcp::resolver resolver(ioService);
-        auto host = argv[1];
-        auto port = argv[2];
-        auto endpointIterator = resolver.resolve({ host, port });
-        BulkClient client(ioService, endpointIterator);
+    if (port <= 0) {
+        std::cerr << "Incorrect port value\n";
+        return -1;
+    }
 
-        std::thread t([&ioService]()
-            {
-                ioService.run();
-            });
+    const std::string server_addr(argv[1]);
+        
+    BulkClient bulk_client(server_addr, static_cast<unsigned short>(port));
 
+    if ( !bulk_client.is_connected()) {
+        std::cerr << "Unable to connect to server " << server_addr << ". Port: " << port << std::endl;
+        return -1;
+    }
+
+    bulk_client.send_message("a", 1);
+
+        /*
         client.write("a");
         client.write("b");
         client.write("\n");
@@ -119,15 +173,10 @@ int main(int argc, char* argv[])
         client.write("\n");
         client.write("\n");
         client.write("l");
-        client.write("\n");
+        client.write("\n");*/
 
-        client.close();
-        t.join();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception: " << e.what() << "\n";
-    }
+   
+
 
     return 0;
 }

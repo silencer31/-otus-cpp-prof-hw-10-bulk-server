@@ -35,7 +35,7 @@ add_executable(bulk_server
 	interpreter.cpp
 )
 
-add_executable(bulk_client client.cpp)
+add_executable(bulk_client bulk_client.cpp)
 
 add_library(lib_bulk_server lib.cpp)
 
