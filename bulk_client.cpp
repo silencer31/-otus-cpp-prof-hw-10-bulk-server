@@ -36,9 +36,9 @@ public:
     * @param data_ptr отправляемые данные.
     * @param data_size размер данных.
     */
-    bool send_message(const char* data_ptr, const std::size_t data_size)
+    bool send_message(const char* data_ptr)
     {
-        if (data_size == 0) {
+        if (strlen(data_ptr) == 0) {
             last_error = std::string("Empty data to send");
             return false;
         }
@@ -46,7 +46,7 @@ public:
         bytes_written = 0;
 
         try {
-            bytes_written = ba::write(_sock, ba::buffer(data_ptr, data_size));
+            bytes_written = ba::write(_sock, ba::buffer(data_ptr, strlen( data_ptr )));
         }
         catch (const boost::system::system_error& ex) {
             last_error = std::string("boost exception: ") + ex.what();
@@ -146,7 +146,19 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    bulk_client.send_message("a", 1);
+    // Отправка на сервер данных, указанных в консоли при запуске клиента.
+    if (argc > 3) {
+        for (int i = 3; i < argc; ++i) {
+            bulk_client.send_message( argv[i]);
+        }
+    }
+    else { // Использовать заготовленный набор данных.
+        bulk_client.send_message("a");
+        bulk_client.send_message("b");
+        bulk_client.send_message("\n");
+        bulk_client.send_message("c");
+    }
+    
 
         /*
         client.write("a");

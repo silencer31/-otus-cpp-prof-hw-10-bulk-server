@@ -15,7 +15,9 @@ class BulkServer : public std::enable_shared_from_this<BulkServer>
 public:
 	BulkServer() = delete;
 
-	BulkServer(boost::asio::io_context& io_context, const unsigned short port, const int bulk_size);
+	BulkServer(boost::asio::io_context& io_context, const unsigned short port, const int bs);
+
+	~BulkServer();
 
 	/**
 	* Получена команда на выключение сервера.
@@ -37,6 +39,8 @@ private: // methods
 	void do_accept();
 
 private: // data
+	const int bulk_size;
+
 	int session_number{0};   // Кол-во сессий.
 
 	bool shutdown_flag{false}; // Флаг, что нужно завершать работу сервера.	

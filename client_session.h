@@ -1,12 +1,16 @@
 #pragma once
 
+#include "async.h"
+
 #include <boost/asio.hpp>
 #include <boost/core/noncopyable.hpp>
 
-#include <thread>
+/*#include <thread>
 #include <memory>
-#include <map>
+#include <map>*/
 #include <utility>
+
+
 
 using boost::asio::ip::tcp;
 
@@ -24,14 +28,19 @@ public:
 
 	ClientSession(
 		const bulk_server_shared& ts_ptr,
-		tcp::socket socket, int s_id)
+		tcp::socket socket, int s_id, const std::size_t& bulk_size)
 		: bulk_server_ptr(ts_ptr)
 		, socket_(std::move(socket))
 		, session_id(s_id)
-	{}
+		, handle(async::connect(bulk_size))
+	{
+		//handle = async::connect(bulk_size);
+	}
 
 	~ClientSession() {
 		shutdown();
+		async::disconnect(handle);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
 	}
 
 	/**
@@ -61,10 +70,12 @@ private: // methods
 
 
 private: // data
+	const bulk_server_shared bulk_server_ptr; // Для связи с сервером, создавшим данную сессию.
+
 	tcp::socket socket_;
 	int session_id; // Идентификатор сессии.
 
-	const bulk_server_shared bulk_server_ptr; // Для связи с сервером, создавшим данную сессию.
+	const handle_t handle; // Контекст обработки данных.
 
 	enum { max_length = 1024 };
 

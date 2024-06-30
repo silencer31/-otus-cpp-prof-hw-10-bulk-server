@@ -5,14 +5,19 @@
 #include <iostream>
 
 
-BulkServer::BulkServer(boost::asio::io_context& io_context, const unsigned short port, const int bulk_size)
+BulkServer::BulkServer(boost::asio::io_context& io_context, const unsigned short port, const int bs)
 	: acceptor_(io_context, tcp::endpoint(tcp::v4(), port))
+	, bulk_size(bs)
 {
-	do_accept();
+	//std::cout << "Bulk_Constructor" << std::endl;
 
-	std::cout << "bulk size " << bulk_size << std::endl;
+	do_accept();
 }
 
+BulkServer::~BulkServer()
+{
+	std::cout << "Bulk_Destructor" << std::endl;
+}
 
 void BulkServer::do_accept()
 {
@@ -37,7 +42,8 @@ void BulkServer::do_accept()
 			session_shared session_ptr = std::make_shared<ClientSession>(
 				shared_from_this(),
 				std::move(socket),
-				session_number // Каждая сессия знает свой номер.
+				session_number, // Каждая сессия знает свой номер.
+				bulk_size
 			);
 
 			// Добавляем новую сессию в коллекцию сессий сервера.
@@ -45,7 +51,7 @@ void BulkServer::do_accept()
 
 			session_number++;
 
-			// Начало работы сессии.
+			// Начало работы новой сессии - нового контекста обработки данных.
 			session_ptr->start();
 
 			// Переключаемся на ожидание следующего соединения.
@@ -59,7 +65,7 @@ void BulkServer::do_accept()
 // Получена команда на выключение сервера.
 void BulkServer::shutdown_server(int session_id)
 {
-	std::cout << "Task server: Exit request received from session: " << session_id << std::endl;
+	std::cout << "Bulk server: Exit request received from session id: " << session_id << std::endl;
 
 	shutdown_flag = true;
 
@@ -78,7 +84,7 @@ void BulkServer::shutdown_server(int session_id)
 // Закрытие сессии.
 void BulkServer::close_session(int session_id)
 {
-	std::cout << "Task server: Session will be closed: " << session_id << std::endl;
+	std::cout << "Bulk server: Session will be closed: " << session_id << std::endl;
 
 	sessions[session_id]->shutdown();
 	sessions.erase(session_id);

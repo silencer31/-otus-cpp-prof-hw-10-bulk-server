@@ -1,4 +1,3 @@
-//#include "client_session.h"
 #include "bulk_server.h"
 
 #include <iostream>
@@ -50,7 +49,7 @@ void ClientSession::shutdown()
 		return;
 	}
 
-	std::cout << "Shutdown process started. Session: " << session_id << std::endl;
+	std::cout << "Shutdown process started. Session id: " << session_id << std::endl;
 
 	boost::system::error_code ignore;
 
@@ -61,7 +60,7 @@ void ClientSession::shutdown()
 
 	socket_.close(ignore);
 
-	std::cout << "Shutdown finished. Session: " << session_id << std::endl;
+	std::cout << "Shutdown finished. Session id: " << session_id << std::endl;
 }
 
 // Очистка буфера для приема данных по сети.
