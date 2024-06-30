@@ -39,13 +39,13 @@ private: // methods
 	void do_accept();
 
 private: // data
-	const int bulk_size;
-
 	int session_number{0};   // Кол-во сессий.
 
 	bool shutdown_flag{false}; // Флаг, что нужно завершать работу сервера.	
 
 	tcp::acceptor acceptor_;
+
+	const int bulk_size;
 
 	session_map sessions; // Коллекция сессий.			
 };
