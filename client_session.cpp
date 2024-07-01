@@ -33,6 +33,9 @@ void ClientSession::do_read()
 				return;
 			}
 
+			// Отправляем данные в контекст.
+			async::receive(handle, data_read, length);
+
 			// Очищаем буфер для следующего запроса от клиента.
 			clear_data_read();
 

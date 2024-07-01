@@ -2,6 +2,8 @@
 #include <thread>
 #include <boost/asio.hpp>
 
+#include <string.h>
+
 //#include "structs.h"
 
 using boost::asio::ip::tcp;
@@ -146,10 +148,22 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    char* str_ptr = nullptr;
+    size_t data_len = 0;
+
     // Отправка на сервер данных, указанных в консоли при запуске клиента.
     if (argc > 3) {
         for (int i = 3; i < argc; ++i) {
+            data_len = strlen(argv[i]);
+            str_ptr = (char*)malloc(data_len + 2);
+            strcpy(str_ptr, argv[i]);
+            str_ptr[data_len] = '\n';
+            str_ptr[data_len + 1] = 0;
+            //std::string str_to_send(argv[i] + "\n");
             bulk_client.send_message( argv[i]);
+            free(str_ptr);
+            //std::this_thread::sleep_for(std::chrono::seconds(1));
+            //std::cout << argv[i] << std::endl;
         }
     }
     else { // Использовать заготовленный набор данных.
