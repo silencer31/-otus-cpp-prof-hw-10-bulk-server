@@ -21,7 +21,7 @@ void ClientSession::do_read()
 				return;
 			}
 
-			//std::cout << "Session: " << session_id << ". Received: " << length << " bytes. Data: " << data_read << std::endl;
+			std::cout << "Session: " << session_id << ". Received: " << length << " bytes. Data: " << data_read << std::endl;
 
 			//std::string str(data_read);
 			// Разделяем полученные данные через \n
@@ -30,8 +30,6 @@ void ClientSession::do_read()
 
 			for (const std::string& str : strings)
 			{
-				std::cout << str.data() << " | " << strlen(str.data()) << std::endl;
-
 				// Нужно ли завершить сессию.
 				if (0 == strcmp(str.data(), "exit")) {
 					bulk_server_ptr->close_session(session_id);
@@ -46,7 +44,7 @@ void ClientSession::do_read()
 				}
 
 				// Отправляем данные в контекст.
-				async::receive(handle, str.data(), length);
+				async::receive(handle, str.data(), strlen(str.data()));
 			}
 			
 			// Очищаем буфер для следующего запроса от клиента.
