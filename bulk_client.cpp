@@ -154,13 +154,18 @@ int main(int argc, char* argv[])
     // Отправка на сервер данных, указанных в консоли при запуске клиента.
     if (argc > 3) {
         for (int i = 3; i < argc; ++i) {
+            if (i == (argc - 1)) {
+                bulk_client.send_message(argv[i]);
+                break;
+            }
+
             data_len = strlen(argv[i]);
             str_ptr = (char*)malloc(data_len + 2);
             strcpy(str_ptr, argv[i]);
             str_ptr[data_len] = '\n';
             str_ptr[data_len + 1] = 0;
             //std::string str_to_send(argv[i] + "\n");
-            bulk_client.send_message( argv[i]);
+            bulk_client.send_message(str_ptr);
             free(str_ptr);
             //std::this_thread::sleep_for(std::chrono::seconds(1));
             //std::cout << argv[i] << std::endl;

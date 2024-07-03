@@ -69,6 +69,9 @@ void BulkServer::shutdown_server(int session_id)
 
 	shutdown_flag = true;
 
+	// Выключение вызвавшей сессии.
+	close_session(session_id);
+
 	// В цикле завершаем все сессии.
 	for (const auto& [id, session_ptr] : sessions) {
 		if (id != session_id) { // Пропускаем сессию, от которой пришел сигнал на завершение.

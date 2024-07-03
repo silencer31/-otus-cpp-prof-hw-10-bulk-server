@@ -38,6 +38,7 @@ public:
 	}
 
 	~ClientSession() {
+		std::cout << "session destr. id " << session_id << std::endl;
 		shutdown();
 		async::disconnect(handle);
 		std::this_thread::sleep_for(std::chrono::seconds(2));
