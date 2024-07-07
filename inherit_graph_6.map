@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classIWriter.html" title="Êëàññ &#45; èíòåðôåéñ äëÿ êëàññîâ ìíîãîïîòî÷íîé îáðàáîòêè äàííûõ." alt="" coords="5,31,65,56"/>
+<area shape="rect" id="Node000001" href="$classConsoleWriter.html" title="Êëàññ äëÿ âûâîäà äàííûõ â êîíñîëü â îòäåëüíîì ïîòîêå." alt="" coords="113,5,215,31"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="79,32,112,26,113,31,80,37"/>
+<area shape="rect" id="Node000002" href="$classFileWriter.html" title="Êëàññ äëÿ çàïèñè â ôàéëû èç äâóõ ïîòîêîâ. Ñîäåðæèò ïîòîêîáåçîïàñíóþ î÷åðåäü äàííûõ äëÿ çàïèñè." alt="" coords="126,55,202,80"/>
+<area shape="poly" id="edge3_Node000000_Node000002" title=" " alt="" coords="80,49,126,58,125,63,79,54"/>
+</map>

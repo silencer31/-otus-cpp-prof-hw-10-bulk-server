@@ -1,0 +1,20 @@
+<map id="context_collector.h" name="context_collector.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="122,5,251,31"/>
+<area shape="rect" id="Node000002" href="$async_8h.html" title=" " alt="" coords="90,79,155,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,44,135,80,131,77,164,40"/>
+<area shape="rect" id="Node000009" href="$context__collector_8cpp.html" title=" " alt="" coords="179,79,322,105"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="209,40,242,77,238,80,205,44"/>
+<area shape="rect" id="Node000003" href="$async_8cpp.html" title=" " alt="" coords="5,153,85,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,117,60,154,56,150,96,114"/>
+<area shape="rect" id="Node000004" href="$bulk__server_8cpp.html" title=" " alt="" coords="42,300,155,326"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="122,120,102,300,97,299,117,120"/>
+<area shape="rect" id="Node000005" href="$client__session_8h.html" title=" " alt="" coords="172,153,286,178"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="155,111,212,150,209,154,152,116"/>
+<area shape="rect" id="Node000006" href="$bulk__server_8h.html" title=" " alt="" coords="187,226,285,252"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="234,194,237,226,232,226,229,194"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="200,262,123,302,121,297,198,257"/>
+<area shape="rect" id="Node000007" href="$client__session_8cpp.html" title=" " alt="" coords="178,300,307,326"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="241,267,244,299,239,300,236,268"/>
+<area shape="rect" id="Node000008" href="$main_8cpp.html" title=" " alt="" coords="331,300,404,326"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="272,257,346,297,344,302,270,262"/>
+</map>

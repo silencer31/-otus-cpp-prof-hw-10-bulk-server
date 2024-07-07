@@ -1,0 +1,7 @@
+<map id="IWriter" name="IWriter">
+<area shape="rect" id="Node000001" title="Êëàññ &#45; èíòåðôåéñ äëÿ êëàññîâ ìíîãîïîòî÷íîé îáðàáîòêè äàííûõ." alt="" coords="83,5,142,31"/>
+<area shape="rect" id="Node000002" href="$classConsoleWriter.html" title="Êëàññ äëÿ âûâîäà äàííûõ â êîíñîëü â îòäåëüíîì ïîòîêå." alt="" coords="5,79,108,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,45,68,80,64,77,92,41"/>
+<area shape="rect" id="Node000003" href="$classFileWriter.html" title="Êëàññ äëÿ çàïèñè â ôàéëû èç äâóõ ïîòîêîâ. Ñîäåðæèò ïîòîêîáåçîïàñíóþ î÷åðåäü äàííûõ äëÿ çàïèñè." alt="" coords="132,79,208,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,41,162,77,158,80,129,45"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Gatherer" name="Gatherer">
+<area shape="rect" id="node1" href="dir_f5d983b91086ab78dab421cdefd3f12d.html" title="Gatherer" alt="" coords="67,5,138,31"/>
+<area shape="rect" id="node2" href="dir_d7a24015de3ad3397ba9b230e38f5b53.html" title="Interfaces" alt="" coords="5,79,85,105"/>
+<area shape="poly" id="edge1" href="dir_000001_000002.html" alt="" coords="95,33,66,68,62,65,91,30"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000001_000002.html" title="1" alt="" coords="69,62,76,77"/>
+<area shape="rect" id="node3" href="dir_fb63645b6cd0d144fb0f7354d2ba7531.html" title="thread_writers" alt="" coords="109,79,213,105"/>
+<area shape="poly" id="edge2" href="dir_000001_000004.html" alt="" coords="114,30,144,65,140,69,110,33"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000001_000004.html" title="2" alt="" coords="143,52,150,67"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="concurrent/concurrent_queue.h" name="concurrent/concurrent_queue.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="34,5,181,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,55,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,48,55,84,51,81,86,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="79,94,136,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,46,110,78,105,78,105,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="159,94,216,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="129,45,166,81,162,85,125,48"/>
+</map>

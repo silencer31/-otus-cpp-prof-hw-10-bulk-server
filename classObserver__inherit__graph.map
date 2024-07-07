@@ -1,0 +1,7 @@
+<map id="Observer" name="Observer">
+<area shape="rect" id="Node000001" title="Êëàññ &#45; èíòåðôåéñ äëÿ êëàññîâ &#45; íàáëþäàòåëåé." alt="" coords="52,5,126,31"/>
+<area shape="rect" id="Node000002" href="$classConsole.html" title="Êëàññ äëÿ âûâîäà êîëëåêöèè êîìàíä â êîíñîëü." alt="" coords="5,79,74,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,45,50,80,46,77,70,42"/>
+<area shape="rect" id="Node000003" href="$classFileLogger.html" title="Êëàññ äëÿ çàïèñè êîëëåêöèè êîìàíä â ôàéë." alt="" coords="98,79,181,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="108,42,133,77,129,80,104,45"/>
+</map>
