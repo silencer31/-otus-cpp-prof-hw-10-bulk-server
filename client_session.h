@@ -33,12 +33,10 @@ public:
 		, socket_(std::move(socket))
 		, session_id(s_id)
 		, handle(async::connect(bulk_size))
-	{
-		//handle = async::connect(bulk_size);
-	}
+	{}
 
 	~ClientSession() {
-		std::cout << "session destr. id " << session_id << std::endl;
+		//std::cout << "session destr. id " << session_id << std::endl;
 		shutdown();
 		async::disconnect(handle);
 		std::this_thread::sleep_for(std::chrono::seconds(2));

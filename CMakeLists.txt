@@ -26,6 +26,7 @@ add_executable(bulk_server
 	bulk_server.cpp
 	client_session.cpp
 	async.cpp
+    Gatherer/data_gatherer.cpp
 	thread_writers/thread_console_writer.cpp
 	thread_writers/thread_file_writer.cpp
 	collector.cpp

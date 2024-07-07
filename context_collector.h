@@ -28,6 +28,7 @@ public:
         : console_mutex_ptr( std::make_shared<std::mutex>() )
         , io_ptr(std::make_shared<ConsoleWriter>(console_mutex_ptr))
         , iw_ptr(std::make_shared<FileWriter>(FILE_THREADS_NUMBER, console_mutex_ptr))
+        , ig_ptr(std::make_shared<DataGatherer>(io_ptr, iw_ptr))
     {}
 
     ~ContextCollector() {
@@ -88,4 +89,7 @@ private:
 
     // Объект для вывода в файлы через пул потоков.
     const std::shared_ptr<IWriter> iw_ptr;
+
+    // Объект для сбора и объединения порций данных.
+    const std::shared_ptr<IGatherer> ig_ptr;
 };

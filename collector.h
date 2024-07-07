@@ -1,14 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <memory>
-#include <chrono>
-
 #include "Observ/observer.h"
+#include "Gatherer/data_gatherer.h"
 
 using command_iterator = std::vector<std::string>::const_iterator;
-using file_time = std::chrono::system_clock::time_point;
 
 // Тип введённых данных.
 enum class InputType {
@@ -33,8 +28,10 @@ class Collector : public Observable {
 public:
 	Collector() = delete;
 
-	explicit Collector(const std::size_t bulk_size)
+	explicit Collector(const std::size_t& bulk_size, const std::uint32_t& hid, const std::shared_ptr<IGatherer>& ig_ptr)
 		: collection_max_size(bulk_size)
+		, handle_id(hid)
+		, gatherer_ptr(ig_ptr)
 	{
 		commands_collection.reserve(collection_max_size);
 	}
@@ -63,6 +60,13 @@ public:
 	void reset_collection();
 
 	/**
+	* @return id контекста.
+	*/
+	std::uint32_t get_handle_id() {
+		return handle_id;
+	}
+
+	/**
 	* Функция для проверки корректного создания файлов в рамках тестирования.
 	* @return время создания файла.
 	*/
@@ -86,7 +90,10 @@ public:
 
 private:
 	const std::size_t collection_max_size;
-	
+	const std::uint32_t handle_id;
+
+	const std::shared_ptr<IGatherer> gatherer_ptr;
+
 	StorageType storage_type{ StorageType::UNKNOWN_T };
 	
 	int open_brackets_number{ 0 };

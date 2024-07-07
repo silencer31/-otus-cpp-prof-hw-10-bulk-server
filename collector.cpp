@@ -1,5 +1,6 @@
 #include "collector.h"
 
+
 void Collector::handle_input(InputType input_type, const std::string& command)
 {
 	switch (input_type) {
@@ -14,9 +15,15 @@ void Collector::handle_input(InputType input_type, const std::string& command)
 			
 			return;
 		}
-				
+		
+		// Коллекция имеет статический размер.
+		// Отправляем одну порцию данных в сборщик порций.
+		gatherer_ptr->add_one_piece(handle_id, command, collection_max_size);
+
+
+		/*
 		commands_collection.push_back(command);
- 
+
 		// Коллекция ещё не используется.
 		if (storage_type == StorageType::UNKNOWN_T) {
 			storage_type = StorageType::STATIC_T;
@@ -30,7 +37,7 @@ void Collector::handle_input(InputType input_type, const std::string& command)
 				flush_collection(true);
 			}
 		}
-		
+		*/
 		break;
 	case InputType::OPEN_BRACKET:
 		open_brackets_number++;
@@ -80,6 +87,7 @@ void Collector::flush_collection(bool clear_flag)
 		commands_collection.clear();
 	}
 }
+
 
 void Collector::reset_collection()
 {

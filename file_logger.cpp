@@ -21,7 +21,7 @@ void FileLogger::write_commands_to_file(const command_iterator& c_begin, const c
 	}
 
 	// Отправляем данные в потокобезопасную очередь.
-	file_writer_ptr->add_data(handle_id, seconds, message.str());
+	file_writer_ptr->add_data(collector_ptr->get_handle_id(), seconds, message.str());
 }
 
 // Реакция на появление данных в коллекторе.

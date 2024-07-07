@@ -45,7 +45,7 @@ private: // data
 
 	tcp::acceptor acceptor_;
 
-	const int bulk_size;
+	const std::size_t bulk_size;
 
 	session_map sessions; // Коллекция сессий.			
 };

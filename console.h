@@ -1,7 +1,7 @@
 #pragma once
 
 #include "collector.h"
-#include "thread_writers/thread_console_writer.h"
+//#include "thread_writers/thread_console_writer.h"
 
 /**
 * @brief Класс для вывода коллекции команд в консоль.
