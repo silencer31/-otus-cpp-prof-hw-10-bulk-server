@@ -32,6 +32,8 @@ public:
     {}
 
     ~ContextCollector() {
+        ig_ptr->flush_pieces();
+
         // ∆дЄм обработки всех отправленных данных.
         while (!iw_ptr->empty() || !io_ptr->empty()) {
             std::this_thread::sleep_for(std::chrono::seconds(1));

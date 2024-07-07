@@ -9,7 +9,7 @@ void ClientSession::do_read()
 
 	socket_.async_read_some( // У сокета вызываем async_read_some
 		boost::asio::buffer(data_read, max_length),
-		[this, self](boost::system::error_code errcode, std::size_t length)
+		[this, self](boost::system::error_code errcode, [[maybe_unused]] std::size_t length)
 		{
 			// Реакция на отключение клиента от сервера.
 			if (errcode) {
@@ -21,7 +21,7 @@ void ClientSession::do_read()
 				return;
 			}
 
-			std::cout << "Session: " << session_id << ". Received: " << length << " bytes. Data: " << data_read << std::endl;
+			//std::cout << "Session: " << session_id << ". Received: " << length << " bytes. Data: " << data_read << std::endl;
 
 			//std::string str(data_read);
 			// Разделяем полученные данные через \n

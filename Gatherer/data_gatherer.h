@@ -22,6 +22,10 @@ public:
 		, file_writer_ptr(iw_ptr)
 	{}
 
+	~DataGatherer() {
+		flush_pieces();
+	}
+
 	/**
 	* Добавление одной порции данных.
 	* @param hid номер контекста.

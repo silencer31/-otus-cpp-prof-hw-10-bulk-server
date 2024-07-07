@@ -30,7 +30,8 @@ class Collector : public Observable {
 public:
 	Collector() = delete;
 
-	explicit Collector(const std::size_t& bulk_size, const std::uint32_t& hid, const std::shared_ptr<IGatherer>& ig_ptr)
+	explicit Collector(const std::size_t& bulk_size, const std::uint32_t& hid,
+		const std::shared_ptr<IGatherer>& ig_ptr)
 		: collection_max_size(bulk_size)
 		, handle_id(hid)
 		, gatherer_ptr(ig_ptr)

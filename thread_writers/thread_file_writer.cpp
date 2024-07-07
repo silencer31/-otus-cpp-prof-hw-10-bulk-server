@@ -3,7 +3,12 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+
+#include <algorithm>
+
 #include <boost/format.hpp> 
+#include <boost/lexical_cast.hpp>
+
 
 // Метод, работающий в отдельном потоке.
 void FileWriter::worker_thread(const uint32_t thread_id)
@@ -28,7 +33,7 @@ void FileWriter::worker_thread(const uint32_t thread_id)
         }
 
         // Берём первый доступный элемент в коллекции с данными.
-        const auto element = std::move(data_to_write.front());
+        const auto& element = std::move(data_to_write.front());
 
         // Удаляем из очереди принятый в обработку элемент.
         data_to_write.pop();
@@ -42,9 +47,7 @@ void FileWriter::worker_thread(const uint32_t thread_id)
 
         std::string filename;
         uint64_t delta{ 0 };
-
-        //const std::string filename = boost::str(boost::format("bulk_%1%_id[%2%]_%3%%4%.log") % time % thread_id % hid % delta);
-
+  
         while (true) {
             filename = boost::str(boost::format("bulk_%1%_id[%2%]_%3%%4%.log") % time % thread_id % hid % delta);
             if (!std::filesystem::exists(filename)) {
