@@ -3,6 +3,8 @@
 #include "console.h"
 #include "file_logger.h"
 
+#include <memory>
+
 /**
 * @brief  ласс - анализатор поступающих команд из консоли.
 */

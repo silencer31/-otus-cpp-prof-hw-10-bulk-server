@@ -8,7 +8,7 @@ handle_t ContextCollector::add_context(const std::size_t bulk_size)
     ++context_counter;
 
     contexts.insert(
-        { context_counter, std::make_unique<Interpreter>(bulk_size, context_counter, io_ptr, iw_ptr) }
+        { context_counter, std::make_unique<Interpreter>(bulk_size, context_counter, io_ptr, iw_ptr, ig_ptr) }
     );
 
     return context_counter;

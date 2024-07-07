@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+#include <memory>
 
 using file_time = std::chrono::system_clock::time_point;
 

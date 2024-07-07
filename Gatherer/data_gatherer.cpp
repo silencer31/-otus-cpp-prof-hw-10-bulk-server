@@ -38,7 +38,7 @@ void DataGatherer::add_one_piece(const std::uint32_t& handle_id, const std::stri
 
 		for (auto comm_iter = data_pieces.cbegin(); comm_iter != data_pieces.cend(); ++comm_iter) {
 			message << (*comm_iter);
-			if (comm_iter + 1 != c_end) {
+			if (comm_iter + 1 != data_pieces.cend()) {
 				message << ", ";
 			}
 		}
@@ -69,7 +69,7 @@ void DataGatherer::flush_pieces()
 
 		for (auto comm_iter = data_pieces.cbegin(); comm_iter != data_pieces.cend(); ++comm_iter) {
 			message << (*comm_iter);
-			if (comm_iter + 1 != c_end) {
+			if (comm_iter + 1 != data_pieces.cend()) {
 				message << ", ";
 			}
 		}
@@ -83,6 +83,6 @@ void DataGatherer::flush_pieces()
 		file_writer_ptr->add_data(handle_id_first, seconds, message.str());
 
 		// Очищаем контейнер для порций данных.
-		pieces_for_files.clear();
+		data_pieces.clear();
 	}
 }

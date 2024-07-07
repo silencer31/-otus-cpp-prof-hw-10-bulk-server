@@ -3,6 +3,8 @@
 #include "Observ/observer.h"
 #include "Gatherer/data_gatherer.h"
 
+#include <memory>
+
 using command_iterator = std::vector<std::string>::const_iterator;
 
 // Тип введённых данных.
